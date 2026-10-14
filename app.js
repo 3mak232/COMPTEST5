@@ -860,7 +860,7 @@ async function paintView(q){
 }
 const QA_ALL=[['sales','فاتورة بيع'],['purch','فاتورة شراء'],['cash','الخزينة والتحويلات'],['cust','عميل جديد'],['prod','منتج جديد'],['stk','الجرد'],['hr','الحضور والإجازات'],['rep','التقارير']];
 const QA_DEFAULT=['sales','purch','cash','cust','rep'];
-const APP_VERSION='FEDO-FLOAT-12';
+const APP_VERSION='FEDO-FLOAT-13';
 async function loadQuick(){try{const{data}=await sb.from('user_quick_actions').select('actions').eq('user_id',me.id).maybeSingle();window._qa=(data&&Array.isArray(data.actions)&&data.actions.length)?data.actions:QA_DEFAULT}catch(_){window._qa=QA_DEFAULT}}
 function quickBar(){
   const cur=window._qa||QA_DEFAULT;
@@ -886,7 +886,7 @@ function lgTogglePw(){const i=document.getElementById('lp');if(!i)return;const s
 
 async function signInWithIdentifier(id,password){const{data,error}=await sb.functions.invoke('login-with-identifier',{body:{identifier:String(id||'').trim(),password:String(password||'')}});if(error||!data?.access_token)throw Error('Invalid login credentials');const{error:se}=await sb.auth.setSession({access_token:data.access_token,refresh_token:data.refresh_token});if(se)throw se}
 async function login(){return withLoading(async()=>{await signInWithIdentifier(v('lu'),v('lp'));clearDataCache();location.reload()},'جاري تسجيل الدخول...','جارٍ الاتصال بالنظام بأمان')}
-async function logout(){return withLoading(async()=>{await sb.auth.signOut();me=null;localStorage.removeItem('erp_v_view');view='dash';await R()},'جاري تسجيل الخروج...','جارٍ إنهاء الجلسة بأمان')}
+async function logout(){return withLoading(async()=>{try{await sb.auth.signOut({scope:'local'})}catch{}try{await sb.auth.signOut()}catch{}me=null;C=null;clearDataCache();try{localStorage.removeItem('erp_v_view')}catch{}location.reload()},'جاري تسجيل الخروج...','جارٍ إنهاء الجلسة بأمان')}
 
 // ----- قفل الموقع + خروج كل الجلسات (v1.61) -----
 const SESS_SEEN_KEY='erp_sess_seen';
