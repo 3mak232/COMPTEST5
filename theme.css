@@ -417,3 +417,16 @@ select option{color:var(--ink);background:var(--card)}
 .sidebar .nav-single,.sidebar .nav-single span,.sidebar a,.sidebar a span{color:var(--side-ink)!important}
 .sidebar .nav-single:hover,.sidebar .nav-single:hover span{color:#fff!important}
 .sidebar .nav-group-title,.sidebar .nav-section-note{color:var(--side-muted)!important}
+
+/* sidebar selected/hover: the sidebar stays dark in both themes, so the active item must too */
+.sidebar .nav-single.on,.sidebar .nav-single.on:hover{background:rgba(59,130,246,.2)!important;color:#fff!important}
+.sidebar .nav-single.on span{color:#fff!important}
+.sidebar .nav-single:hover{background:rgba(255,255,255,.06)!important}
+
+/* v11 audit fixes: primary button token in light, dashboard hero, sidebar footnote, selected day */
+:root{--btn:#2563EB}
+.hm-hero .hm-glass{background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.2)!important}
+.hm-hero,.hm-hero .hm-glass{color:#fff}
+.hm-hero small,.hm-hero .muted{color:rgba(255,255,255,.8)!important}
+.sidebar .side-hint{color:var(--side-muted)!important}
+.day-btn.on small{color:rgba(255,255,255,.88)!important}
