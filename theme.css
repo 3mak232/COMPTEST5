@@ -259,3 +259,27 @@ tbody tr:hover td{background:color-mix(in srgb,var(--blue) 6%,transparent)}
 /* search field: beat the generic form rule (higher specificity) so the pill stays one box */
 .top-search input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]){background-color:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;padding:0!important;min-height:0;height:100%}
 .top-search:focus-within input{box-shadow:none!important}
+
+/* =========================================================
+   v6 — theme consistency pass
+   Every surface, text, and border reads from tokens, so light and dark switch together.
+   ========================================================= */
+html,body{color-scheme:inherit}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+/* text inherits ink; links and muted text keep their roles in both themes */
+body,.page,.card,.kpi,.tw,.modal-box,.lg-card,.form-card,.filterbar{color:var(--ink)}
+a{color:var(--blue2)}
+h1,h2,h3,h4,b,strong{color:inherit}
+/* the blue button label is always white */
+.btn,.btn *,.lg-submit,.lg-submit *{color:#fff}
+.btn.soft,.btn.soft *{color:var(--blue2)}
+.btn.danger,.btn.danger *{color:var(--red)}
+/* the white-on-navy hero keeps its own text colors */
+.hero{color:#fff}
+.hero h2{color:#fff}.hero p{color:#B8C6DE}.hero .eyebrow{color:#93C5FD}
+/* modals and overlays */
+.modal-box{background:var(--card)}
+.toast{background:#E8EEF8!important;color:#0B1020!important}
+/* selection and focus stay visible in dark */
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
