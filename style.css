@@ -259,7 +259,7 @@ html,body{overflow-x:hidden}.login-page{min-height:100dvh;width:100%;display:gri
 .doc-del{width:30px;height:30px;border-radius:10px;border:0;background:var(--red-bg);color:var(--red);font-size:17px}
 .doc-del:hover{background:var(--red-bg)}
 .doc-foot{background:var(--surface-2);border-top:1px solid var(--line);padding:16px 20px;gap:14px;border-radius:0 0 14px 14px}
-.doc-count{display:inline-block;background:var(--tint);color:#1E3A8A;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:800;align-self:flex-start}
+.doc-count{display:inline-block;background:var(--tint);color:var(--blue2);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:800;align-self:flex-start}
 .doc-totals{gap:12px}
 .doc .tl{background:var(--card);border:0;border-radius:14px;padding:14px 16px;box-shadow:0 1px 2px rgba(11,18,32,.05)}
 .doc .tl span{color:var(--muted);font-weight:700}
@@ -333,7 +333,7 @@ body{background:var(--surface-2)}
 .np{padding:18px}
 .btn{background:linear-gradient(135deg,#2563EB,#2563EB);color:#fff;border-radius:12px;padding:10px 16px;font-weight:700;box-shadow:0 6px 16px rgba(37,99,235,.22);transition:filter .15s,box-shadow .15s}
 .btn:hover{background:linear-gradient(135deg,#2563EB,#2563EB);filter:brightness(1.06);box-shadow:0 8px 20px rgba(37,99,235,.3)}
-.btn.soft{background:var(--tint);color:#1E3A8A;box-shadow:none}
+.btn.soft{background:var(--tint);color:var(--blue2);box-shadow:none}
 .btn.soft:hover{background:var(--tint-2)}
 .btn.danger{background:var(--red-bg);color:var(--red);box-shadow:none}
 .btn.danger:hover{background:var(--red-bg)}
@@ -365,7 +365,7 @@ body{background:var(--surface-2)}
 /* --- v1.38: الأزرار بدون class (إضافة، تسجيل الدفعة، بدء جرد، عرض وطباعة...) بشكل موحد --- */
 .page button:not([class]){background:linear-gradient(135deg,#2563EB,#2563EB);color:#fff;border:0;border-radius:12px;padding:10px 16px;font-weight:700;font-size:14px;font-family:inherit;cursor:pointer;box-shadow:0 6px 16px rgba(37,99,235,.22);min-height:42px;white-space:nowrap;margin:0;transition:filter .15s,box-shadow .15s}
 .page button:not([class]):hover{filter:brightness(1.06);box-shadow:0 8px 20px rgba(37,99,235,.3)}
-.page button.s{background:var(--tint);color:#1E3A8A;border:0;border-radius:12px;padding:10px 16px;font-weight:700;font-size:14px;font-family:inherit;min-height:42px;cursor:pointer;box-shadow:none;white-space:nowrap;margin:0}
+.page button.s{background:var(--tint);color:var(--blue2);border:0;border-radius:12px;padding:10px 16px;font-weight:700;font-size:14px;font-family:inherit;min-height:42px;cursor:pointer;box-shadow:none;white-space:nowrap;margin:0}
 .page button.s:hover{background:var(--tint-2)}
 .page button.danger{background:var(--red-bg);color:var(--red);border:0;border-radius:10px;padding:7px 12px;font-weight:700;font-size:13px;font-family:inherit;cursor:pointer;margin:0}
 .page button.danger:hover{background:var(--red-bg)}
@@ -732,7 +732,7 @@ body{background:var(--surface-2)}
 .mfa-bg{position:fixed;inset:0;z-index:9999;background:var(--bg,#F5F7FA);overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))}
 .mfa-box{width:min(420px,100%)}
 .mfa-card{background:var(--card,var(--card));border:1px solid var(--line,var(--line));border-radius:20px;padding:26px 22px;display:grid;gap:12px;box-shadow:0 18px 40px rgba(11,18,32,.08);text-align:center}
-.mfa-ic{width:56px;height:56px;border-radius:16px;background:var(--tint);color:#1E3A8A;display:grid;place-items:center;margin:0 auto}
+.mfa-ic{width:56px;height:56px;border-radius:16px;background:var(--tint);color:var(--blue2);display:grid;place-items:center;margin:0 auto}
 .mfa-ic .ico{--ico:26px}
 .mfa-t{margin:0;font-size:20px}
 .mfa-d{margin:0;color:var(--muted,var(--muted));font-size:14px;line-height:1.6}

@@ -7,7 +7,7 @@
 
 /* ---------- tokens: LIGHT ---------- */
 :root{
-  --navy:#0B1020; --navy-2:#111A30; --navy-3:#18243F;
+  --navy:#0B1020; --navy-2:#111A30; --navy-3:#18243F; --on:#0B1020;
   --bg:#EEF1F6; --card:#FFFFFF; --surface-2:#F5F7FA; --line:#E5E7EB; --line-2:#CBD3E1;
   --ink:#0B1020; --ink-2:#2B3A55; --muted:#64748B; --fg:#0B1020;
   --blue:#2563EB; --blue2:#1D4ED8; --teal:#3B82F6; --tint:#EAF1FE; --tint-2:#D5E3FD;
@@ -24,7 +24,7 @@
 /* ---------- tokens: DARK ---------- */
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#070B14; --card:#0E1628; --surface-2:#121D33; --line:#1C2842; --line-2:#2A3A5C;
+    --on:#3B82F6; --bg:#070B14; --card:#0E1628; --surface-2:#121D33; --line:#1C2842; --line-2:#2A3A5C;
     --ink:#E8EEF8; --ink-2:#C5D0E3; --muted:#8A98B2; --fg:#E8EEF8;
     --blue:#3B82F6; --blue2:#60A5FA; --teal:#60A5FA; --tint:rgba(59,130,246,.14); --tint-2:rgba(59,130,246,.26);
     --green:#34D399; --green-bg:rgba(52,211,153,.12); --red:#F87171; --red-bg:rgba(248,113,113,.12);
@@ -35,7 +35,7 @@
   }
 }
 :root[data-theme="dark"]{
-  --bg:#070B14; --card:#0E1628; --surface-2:#121D33; --line:#1C2842; --line-2:#2A3A5C;
+  --on:#3B82F6; --bg:#070B14; --card:#0E1628; --surface-2:#121D33; --line:#1C2842; --line-2:#2A3A5C;
   --ink:#E8EEF8; --ink-2:#C5D0E3; --muted:#8A98B2; --fg:#E8EEF8;
   --blue:#3B82F6; --blue2:#60A5FA; --teal:#60A5FA; --tint:rgba(59,130,246,.14); --tint-2:rgba(59,130,246,.26);
   --green:#34D399; --green-bg:rgba(52,211,153,.12); --red:#F87171; --red-bg:rgba(248,113,113,.12);
@@ -283,3 +283,66 @@ h1,h2,h3,h4,b,strong{color:inherit}
 .toast{background:#E8EEF8!important;color:#0B1020!important}
 /* selection and focus stay visible in dark */
 :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* =========================================================
+   v7 — full control audit: every button and control has a skin in both themes
+   ========================================================= */
+/* default for any button not styled yet (zero specificity, so classes still win) */
+:where(button){font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;cursor:pointer;padding:8px 12px;font-weight:700;transition:background .15s,border-color .15s,color .15s,transform .15s}
+:where(button):hover{border-color:var(--line-2)}
+:where(button):disabled{opacity:.5;cursor:not-allowed;transform:none}
+.soft{background:var(--tint);color:var(--blue2)}
+
+/* segmented controls (period / preset / section tabs) */
+.hm-seg,.sec-bar{display:inline-flex;flex-wrap:wrap;gap:4px;padding:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;max-width:100%}
+.hm-sb,.sec-btn{border:0;background:transparent;color:var(--muted);border-radius:999px;padding:7px 14px;font-weight:700;box-shadow:none;min-height:0}
+.hm-sb:hover,.sec-btn:hover{color:var(--ink);background:var(--card)}
+.hm-sb.on,.sec-btn.on{background:var(--on);color:#fff}
+
+/* calendar day chips */
+.day-btn{display:inline-grid;justify-items:center;gap:2px;min-width:64px;padding:10px 8px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);box-shadow:var(--shadow-1)}
+.day-btn b{font-size:14px}
+.day-btn s{text-decoration:none;font-size:11px;color:var(--muted)}
+.day-btn.on{background:var(--on);border-color:transparent;color:#fff}
+.day-btn.on s{color:rgba(255,255,255,.8)}
+
+/* home quick actions and header links */
+.hm-quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.hm-q{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);text-align:start;font-weight:700;box-shadow:var(--shadow-1)}
+.hm-q:hover{border-color:var(--blue);transform:translateY(-1px)}
+.hm-q span{width:34px;height:34px;border-radius:10px;background:var(--tint);color:var(--blue2);display:grid;place-items:center;flex:0 0 auto}
+.hm-btn{border-radius:999px;padding:10px 18px;font-weight:800;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.hm-btn-main{background:var(--blue);color:#fff;border-color:transparent;box-shadow:0 8px 18px -10px rgba(37,99,235,.8)}
+.hm-link{border:0;background:transparent;color:var(--blue2);font-weight:800;padding:0;min-height:0;box-shadow:none}
+.hm-link:hover{text-decoration:underline}
+
+/* big tiles (inventory hub) */
+.ix-tile{display:flex;flex-direction:column;align-items:flex-start;gap:10px;text-align:start;padding:18px;border-radius:18px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow-2);min-height:120px;width:100%}
+.ix-tile:hover{border-color:var(--blue);transform:translateY(-2px)}
+.ix-tile span:first-child{width:42px;height:42px;border-radius:12px;background:var(--tint);color:var(--blue2);display:grid;place-items:center}
+.ix-tile b{font-size:15px;color:var(--ink)}
+.ix-tile small{color:var(--muted)}
+.ix-back{border:0;background:transparent;color:var(--blue2);font-weight:800;padding:6px 0;min-height:0;box-shadow:none}
+
+/* list rows that act as buttons */
+.stmt-opt,.st-row{display:flex;align-items:center;gap:12px;width:100%;text-align:start;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);margin-bottom:6px;box-shadow:none}
+.stmt-opt:hover,.st-row:hover{border-color:var(--blue);background:var(--tint)}
+.st-ic{width:40px;height:40px;border-radius:12px;background:var(--tint);color:var(--blue2);display:grid;place-items:center;flex:0 0 auto}
+.pk-x{width:32px;height:32px;padding:0;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:var(--muted);font-size:18px;line-height:1;min-height:0}
+.pk-x:hover{color:var(--red);border-color:var(--red)}
+.lg-eye{border:0;background:var(--surface-2);color:var(--ink-2);border-radius:10px;padding:6px 10px;min-height:0;font-weight:700;box-shadow:none}
+
+/* navigation helpers in the sidebar */
+.nav-toggle{border:0;background:transparent;color:var(--side-muted);padding:4px;min-height:0;box-shadow:none;border-radius:8px}
+.nav-toggle:hover{background:rgba(255,255,255,.06);color:#fff}
+
+/* permission and option cards (label as a card) */
+.perm-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);cursor:pointer;font-weight:600;color:var(--ink)}
+.perm-item:hover{border-color:var(--line-2)}
+.perm-item:has(input:checked){border-color:var(--blue);background:var(--tint)}
+.perm-item.disabled{opacity:.5;cursor:not-allowed}
+
+.hm-seg .hm-sb.on{background:var(--on);color:#fff;box-shadow:none}
+.sec-btn.on{border-color:transparent}
+.day-btn.on{border-color:transparent}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .role-pill{background:var(--tint-2);color:var(--ink);border-color:transparent} }
