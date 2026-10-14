@@ -400,7 +400,7 @@ function sectionHead(title,sub=''){return `<div class="section-head"><div><h2>${
 function money(x){return `<span class="money">${fmt(x)} ج.م</span>`}
 
 async function dash(){
- const [a,b]=range(); const D=await rpc('dashboard_v2',{p_from:a,p_to:b});
+ const [a,b]=range(); const D=(await rpc('dashboard_v2',{p_from:a,p_to:b}))||{};
  const low=await g('low_stock');
  const finance=me.role==='admin'||me.role==='accountant';
  let recent=[]; try{recent=await g('sales_invoice_balances','date');recent=recent.slice(-8).reverse()}catch{}
@@ -860,7 +860,7 @@ async function paintView(q){
 }
 const QA_ALL=[['sales','فاتورة بيع'],['purch','فاتورة شراء'],['cash','الخزينة والتحويلات'],['cust','عميل جديد'],['prod','منتج جديد'],['stk','الجرد'],['hr','الحضور والإجازات'],['rep','التقارير']];
 const QA_DEFAULT=['sales','purch','cash','cust','rep'];
-const APP_VERSION='FEDO-FLOAT-10';
+const APP_VERSION='FEDO-FLOAT-11';
 async function loadQuick(){try{const{data}=await sb.from('user_quick_actions').select('actions').eq('user_id',me.id).maybeSingle();window._qa=(data&&Array.isArray(data.actions)&&data.actions.length)?data.actions:QA_DEFAULT}catch(_){window._qa=QA_DEFAULT}}
 function quickBar(){
   const cur=window._qa||QA_DEFAULT;
@@ -885,7 +885,7 @@ function _inactiveScreen(){$('#app').innerHTML=lgShell(`<div class="lg-head"><sp
 function lgTogglePw(){const i=document.getElementById('lp');if(!i)return;const show=i.type==='password';i.type=show?'text':'password';const b=document.querySelector('.lg-eye');if(b)b.textContent=show?'إخفاء':'إظهار'}
 
 async function signInWithIdentifier(id,password){const{data,error}=await sb.functions.invoke('login-with-identifier',{body:{identifier:String(id||'').trim(),password:String(password||'')}});if(error||!data?.access_token)throw Error('Invalid login credentials');const{error:se}=await sb.auth.setSession({access_token:data.access_token,refresh_token:data.refresh_token});if(se)throw se}
-async function login(){return withLoading(async()=>{await signInWithIdentifier(v('lu'),v('lp'));await boot()},'جاري تسجيل الدخول...','جارٍ الاتصال بالنظام بأمان')}
+async function login(){return withLoading(async()=>{await signInWithIdentifier(v('lu'),v('lp'));clearDataCache();location.reload()},'جاري تسجيل الدخول...','جارٍ الاتصال بالنظام بأمان')}
 async function logout(){return withLoading(async()=>{await sb.auth.signOut();me=null;localStorage.removeItem('erp_v_view');view='dash';await R()},'جاري تسجيل الخروج...','جارٍ إنهاء الجلسة بأمان')}
 
 // ----- قفل الموقع + خروج كل الجلسات (v1.61) -----
@@ -1092,6 +1092,7 @@ async function mfaGate(){
   mfaScreen(`<div class="mfa-card"><div class="mfa-ic">${ico('lockkey')}</div><h2 class="mfa-t">فعّل التحقق الثنائي</h2><p class="mfa-d">مطلوب لحساب الأدمن. افتح تطبيق Authenticator (Google أو Microsoft) وامسح الكود، أو اكتب المفتاح يدوياً.</p><div class="mfa-qr"><img alt="QR" src="${en.totp.qr_code}"></div><p class="mfa-key">${e(en.totp.secret)}</p><input id="mfaCode" class="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="الكود من التطبيق" onkeydown="if(event.key==='Enter')mfaVerifyCode('${en.id}')"><button class="btn mfa-btn" onclick="mfaVerifyCode('${en.id}')">تأكيد وتفعيل</button><button class="btn soft mfa-btn" onclick="mfaSignOut()">تسجيل الخروج</button></div>`);
   return true;
 }
+function clearDataCache(){try{Object.keys(localStorage).filter(k=>k.startsWith('erp_cache_')).forEach(k=>localStorage.removeItem(k))}catch{}}
 async function boot(){const{data:{user}}=await sb.auth.getUser();
   if(await lockGate(!!user))return;me=null;if(user){const{data,error}=await sb.from('profiles').select('*').eq('id',user.id).single();if(!error)me=data}if(me){me.realRole=me.role;me.isDev=me.role==='developer';if(me.isDev)me.role='admin'}if(me&&await mfaGate())return;if(me)await Promise.all([loadMyPermissions(),loadQuick()]);await R()}
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeMobileNav()});
@@ -1285,7 +1286,7 @@ async function invoiceFormView(s){
     </div>
     <div class="doc-add">
       <div class="doc-search">
-        <div class="doc-search-row"><input id="invQ" type="search" placeholder="ابحث عن صنف بالاسم أو الكود أو الباركود، واضغط Enter" autocomplete="off" oninput="invSearch('${k}',this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();invPickFirst('${k}')}"><button type="button" class="btn soft" onclick="scanBarcode('invQ','${k}')" title="مسح باركود بالكاميرا">'+ico('camera')+' مسح</button></div>
+        <div class="doc-search-row"><input id="invQ" type="search" placeholder="ابحث عن صنف بالاسم أو الكود أو الباركود، واضغط Enter" autocomplete="off" oninput="invSearch('${k}',this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();invPickFirst('${k}')}"><button type="button" class="btn soft" onclick="scanBarcode('invQ','${k}')" title="مسح باركود بالكاميرا">${ico('camera')} مسح</button></div>
         <div id="invRes" class="doc-res"></div>
       </div>
     </div>
@@ -1525,8 +1526,8 @@ async function printInvoice(id,s){
 // ---------- أدوات مشتركة: أقسام داخل الصفحة ----------
 window._sec=window._sec||{};
 function secCur(key,def){return (window._sec&&window._sec[key])||def}
-function secSet(key,id){window._sec=window._sec||{};window._sec[key]=id;R('soft')}
-function secBar(key,tabs,def){const cur=secCur(key,def);return `<div class="sec-bar">${tabs.map(([id,l])=>`<button type="button" class="sec-btn${cur===id?' on':''}" onclick="secSet('${key}','${id}')">${l}</button>`).join('')}</div>`}
+function secSet(key,id,el){window._sec=window._sec||{};window._sec[key]=id;if(el){el.parentElement?.querySelectorAll('.sec-btn').forEach(b=>b.classList.toggle('on',b===el))}R('soft')}
+function secBar(key,tabs,def){const cur=secCur(key,def);return `<div class="sec-bar">${tabs.map(([id,l])=>`<button type="button" class="sec-btn${cur===id?' on':''}" onclick="secSet('${key}','${id}',this)">${l}</button>`).join('')}</div>`}
 
 // ---------- أدوات مشتركة: اختيار يوم (اليوم مفتوح، والأيام السابقة مقفولة) ----------
 window._dy=window._dy||{};
@@ -1959,21 +1960,20 @@ async function payView(){
     `<div class="pf-f pf-act"><span>&nbsp;</span><button onclick="savePayment()">تسجيل الدفعة</button></div>`+
     `</div><p class="muted pay-note">يمكن ترك الفاتورة فارغة ليصبح المبلغ رصيدًا غير مخصص، ثم تخصيصه لاحقًا.</p></div>`;
   else if(sec==='hist'){
+    const day=dyGet('pay');
     const P=await g('payments','date');
+    const dayOf=p=>String(p.date||'').slice(0,10);
+    const cnt={};P.forEach(p=>{const d=dayOf(p);cnt[d]=(cnt[d]||0)+1});
     const nm=p=>p.kind==='receipt'?(by(C.customers,p.customer_id).name||''):(by(C.suppliers,p.supplier_id).name||'');
-    const loc=dialectMode()==='en'?'en-GB':'ar-EG';
-    const months={};
-    P.slice().sort((x,y)=>String(y.date).localeCompare(String(x.date))).forEach(p=>{const d=String(p.date||'').slice(0,10)||'—';const m=d.slice(0,7)||'—';(months[m]??={});(months[m][d]??=[]);months[m][d].push(p)});
-    const dayLabel=d=>{try{return new Date(d+'T12:00:00').toLocaleDateString(loc,{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'Africa/Cairo'})}catch{return d}};
-    const monLabel=m=>{try{return new Date(m+'-01T12:00:00').toLocaleDateString(loc,{month:'long',year:'numeric',timeZone:'Africa/Cairo'})}catch{return m}};
-    const sum=arr=>arr.reduce((t,p)=>t+Number(p.amount||0),0);
-    const blocks=Object.keys(months).sort().reverse().map(m=>{
-      const days=Object.keys(months[m]).sort().reverse();
-      const monthRows=days.map(d=>{const items=months[m][d];return `<div class="pay-day"><div class="pay-day-h"><b>${e(dayLabel(d))}</b><span>${items.length} حركة · ${fmt(sum(items))}</span></div>`+
-        T(['الطرف','النوع','المبلغ','الحساب','المستند'],items.map(p=>[e(nm(p)||'—'),p.kind==='receipt'?'مقبوض':'مدفوع',fmt(p.amount),e((by(C.accts,p.account_id).name)||''),e(p.doc_ref||'')]))+'</div>'}).join('');
-      return `<section class="pay-month"><header class="pay-month-h"><b>${e(monLabel(m))}</b><span>${fmt(sum([].concat(...days.map(d=>months[m][d]))))}</span></header>${monthRows}</section>`;
-    }).join('');
-    body=`<div class="card pay-hist">${blocks||'<div class="empty">لا توجد حركات بعد</div>'}</div>`;
+    const rowsDay=P.filter(p=>dayOf(p)===day).sort((x,y)=>String(y.created_at||'').localeCompare(String(x.created_at||'')));
+    const tot=rowsDay.reduce((t,p)=>t+Number(p.amount||0),0);
+    const rin=rowsDay.filter(p=>p.kind==='receipt').reduce((t,p)=>t+Number(p.amount||0),0);
+    const rout=tot-rin;
+    const cells=rowsDay.map(p=>[e(nm(p)||'—'),p.kind==='receipt'?'مقبوض':'مدفوع',fmt(p.amount),e((by(C.accts,p.account_id).name)||''),e(p.doc_ref||'')]);
+    ptStore('pay','المدفوعات والتحصيل — '+day,'',['الطرف','النوع','المبلغ','الحساب','المستند'],cells,`<p class="tot">مقبوضات: ${fmt(rin)} · مدفوعات: ${fmt(rout)} · الصافي: ${fmt(rin-rout)}</p>`);
+    body=dayStrip('pay',day,d=>(cnt[d]||0)+' حركة')+
+      `<div class="card"><div class="card-title"><b>حركات ${e(day)}</b><div class="row"><span class="chip success">مقبوض ${fmt(rin)}</span><span class="chip danger">مدفوع ${fmt(rout)}</span><span class="chip info">الإجمالي ${fmt(tot)}</span><button class="s" onclick="ptPrint('pay')">طباعة هذا اليوم</button></div></div>`+
+      (rowsDay.length?T(['الطرف','النوع','المبلغ','الحساب','المستند'],cells):'<div class="empty">لا توجد حركات في هذا اليوم</div>')+'</div>';
   }
   else body=`<div class="card"><b>الأرصدة</b>${T(['الاسم','الرصيد'],L.map(x=>[e(x.name),fmt(by(P_,x.id).balance)]))}</div>`;
   return sectionHead('المدفوعات والتحصيل','تسجيل المقبوضات والمدفوعات وتخصيصها على الفواتير.')+bar+body;
@@ -2226,7 +2226,7 @@ async function login(){
   loginMsg('');
   if(!email||!pass)return loginMsg('اكتب البريد الإلكتروني وكلمة المرور');
   try{
-    await withLoading(async()=>{await signInWithIdentifier(email,pass);await boot()},'جاري تسجيل الدخول...','جارٍ الاتصال بالنظام بأمان');
+    await withLoading(async()=>{await signInWithIdentifier(email,pass);clearDataCache();location.reload()},'جاري تسجيل الدخول...','جارٍ الاتصال بالنظام بأمان');
   }catch(x){
     const m=String(x?.message||x?.error_description||x||'');
     if(/invalid login|invalid_credentials|invalid.*(credential|password)/i.test(m))return loginMsg('البريد الإلكتروني أو كلمة المرور غلط');
@@ -3567,6 +3567,7 @@ let EN_PAIRS=[
 ["اضغط عشان تبدّل بين العامية المصرية والفصحى والإنجليزي (على الجهاز ده).","Tap to switch between Egyptian colloquial, formal Arabic and English (on this device)."],
 ["نسخة كاملة تتنزل على جهازك (كل البيانات والمستخدمين والملفات)، واستعادتها.","Full backup downloaded to your device (all data, users and files), and restore."],
 ["كل أدوات الإدارة في مكان واحد.","All admin tools in one place."]];
+EN_PAIRS.push(["مقبوضات","Receipts"],["مدفوعات","Payments"],["مقبوض","Received"],["مدفوع","Paid"],["التسليم","Delivery"],["المساهمون","Shareholders"],["الأرباح بالتفاصيل","Profit details"],["الموازنة والفعلي","Budget vs actual"],["الفاتورة (اختياري)","Invoice (optional)"],["دفعة على الحساب (بدون تخصيص)","Payment on account (no allocation)"],["عامية","Colloquial"],["فصحى","Formal"]);
 EN_PAIRS=EN_PAIRS.filter(p=>Array.isArray(p)&&typeof p[0]==="string"&&typeof p[1]==="string"&&p[0]);
 EN_PAIRS.sort((a,b)=>b[0].length-a[0].length);
 
@@ -3586,15 +3587,22 @@ function dx(s){
 }
 function applyDialect(root){
   if(!root)return;
-  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:t=>{const p=t.parentNode;return p&&!/^(SCRIPT|STYLE|TEXTAREA|CODE)$/.test(p.nodeName)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});
   const nodes=[];let n;while((n=w.nextNode()))nodes.push(n);
   for(const t of nodes){
     if(t.__orig===undefined)t.__orig=t.nodeValue;
     const out=dx(t.__orig);
     if(t.nodeValue!==out)t.nodeValue=out;
   }
+  root.querySelectorAll?.('[placeholder],[title],[aria-label]').forEach(el=>{
+    for(const at of ['placeholder','title','aria-label']){
+      if(!el.hasAttribute(at))continue;
+      const k='__o_'+at;if(el[k]===undefined)el[k]=el.getAttribute(at);
+      const out=dx(el[k]);if(el.getAttribute(at)!==out)el.setAttribute(at,out);
+    }
+  });
 }
-async function setDialect(x){try{localStorage.setItem('erp_dialect',x)}catch{}await R();applyDialect(document.getElementById('app'))}
+function setDialect(x){try{localStorage.setItem('erp_dialect',x)}catch{}document.querySelectorAll('.lang-seg button').forEach(b=>{const on=b.getAttribute('onclick')?.includes("'"+x+"'");b.classList.toggle('on',!!on);b.setAttribute('aria-pressed',String(!!on))});applyDialect(document.body);document.documentElement.lang=x==='en'?'en':'ar'}
 function toggleDialect(){
   const cur=dialectMode();
   const opts=[['eg','عامية مصرية'],['msa','فصحى'],['en','English']];
@@ -3602,9 +3610,7 @@ function toggleDialect(){
     `<div class="fm-f"><span>اختار اللغة اللي تريحك. التغيير ده على الجهاز ده بس.</span>${opts.map(([k,l])=>`<label style="display:block;margin:8px 0"><input type="radio" name="lang" value="${k}" ${cur===k?'checked':''}> ${l}</label>`).join('')}</div>`,
     async()=>{
       const x=document.querySelector('input[name=lang]:checked')?.value||'eg';
-      try{localStorage.setItem('erp_dialect',x)}catch{}
-      await R();
-      applyDialect(document.getElementById('app'));
+      setDialect(x);
     },'حفظ');
 }
 // الرسايل المنبثقة والتوست بتتترجم كمان
@@ -3616,7 +3622,7 @@ window.alert=function(m){return _alertDx(dx(String(m)))};
   const app=document.getElementById('app');
   if(!app)return;
   let queued=false;
-  new MutationObserver(()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;applyDialect(app)})}).observe(app,{childList:true,subtree:true});
+  new MutationObserver(()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;applyDialect(document.body)})}).observe(document.body,{childList:true,subtree:true});
 })();
 
 // ===== v1.57 =====

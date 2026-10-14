@@ -400,3 +400,20 @@ select option{color:var(--ink);background:var(--card)}
 .ix-tile.new small{opacity:.85}
 .ix-tile.new .ix-ico{background:rgba(255,255,255,.18);color:#fff;border:0}
 .row+.row{margin-top:14px}
+
+/* v10: spacing between buttons, inputs and tables; clear back/home buttons; search row */
+@media (min-width:641px){.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}}
+.row>*{min-width:0}
+.sec-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.doc-search-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.doc-search-row>input{flex:1 1 280px;min-width:0}
+.doc-add{margin-bottom:16px}
+.card-title{gap:10px;flex-wrap:wrap}
+.btn.s,.btn.s:hover{color:var(--ink);background:var(--card);border:1px solid var(--line-2,var(--line));box-shadow:none}
+.btn.s .ico{color:var(--blue2);stroke:currentColor}
+.btn.s:hover{background:var(--surface-2)}
+
+/* sidebar is always dark: its links must use the sidebar tokens in both themes */
+.sidebar .nav-single,.sidebar .nav-single span,.sidebar a,.sidebar a span{color:var(--side-ink)!important}
+.sidebar .nav-single:hover,.sidebar .nav-single:hover span{color:#fff!important}
+.sidebar .nav-group-title,.sidebar .nav-section-note{color:var(--side-muted)!important}
