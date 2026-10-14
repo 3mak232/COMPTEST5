@@ -9,9 +9,9 @@
 :root{
   --navy:#0B1020; --navy-2:#111A30; --navy-3:#18243F; --on:#0B1020;
   --bg:#EEF1F6; --card:#FFFFFF; --surface-2:#F5F7FA; --line:#E5E7EB; --line-2:#CBD3E1;
-  --ink:#0B1020; --ink-2:#2B3A55; --muted:#64748B; --fg:#0B1020;
+  --ink:#0B1020; --ink-2:#2B3A55; --muted:#536173; --fg:#0B1020;
   --blue:#2563EB; --blue2:#1D4ED8; --teal:#3B82F6; --tint:#EAF1FE; --tint-2:#D5E3FD;
-  --green:#15803D; --green-bg:#E7F6EC; --red:#B91C1C; --red-bg:#FDECEC;
+  --green:#126B35; --green-bg:#E7F6EC; --red:#B91C1C; --red-bg:#FDECEC;
   --orange:#B45309; --orange-bg:#FEF3E2; --purple:#0E6E8C;
   --danger-bg:#FDECEC;
   --side-ink:#E6ECF7; --side-muted:#7D8AA6; --side-line:rgba(255,255,255,.07);
@@ -121,7 +121,7 @@ nav a.on::before{content:"";display:block;position:absolute;inset-inline-end:-12
 .alert-row span{color:var(--muted)}
 
 /* ---------- buttons: flat, confident ---------- */
-.btn{background:var(--blue);color:#fff;border:0;border-radius:12px;padding:0 16px;min-height:42px;font-weight:700;box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 8px 18px -10px rgba(37,99,235,.8);transition:background .15s,transform .15s,box-shadow .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn{background:var(--btn);color:#fff;border:0;border-radius:12px;padding:0 16px;min-height:42px;font-weight:700;box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 8px 18px -10px rgba(37,99,235,.8);transition:background .15s,transform .15s,box-shadow .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn:hover{background:var(--blue2);transform:translateY(-1px)}
 .btn:active{transform:none}
 .btn:focus-visible{outline:0;box-shadow:var(--ring)}
@@ -346,3 +346,10 @@ h1,h2,h3,h4,b,strong{color:inherit}
 .sec-btn.on{border-color:transparent}
 .day-btn.on{border-color:transparent}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .role-pill{background:var(--tint-2);color:var(--ink);border-color:transparent} }
+
+/* buttons: one brand blue that carries white text at AA contrast in both themes */
+.btn,.lg-submit{background:var(--btn)}
+.btn:hover{background:var(--blue2)}
+:root{--btn:#2563EB}
+:root:not([data-theme="light"]){--btn:#2563EB}
+:root[data-theme="dark"]{--btn:#2563EB}
