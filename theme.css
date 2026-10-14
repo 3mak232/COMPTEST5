@@ -393,3 +393,10 @@ select option{color:var(--ink);background:var(--card)}
 .pay-month-h{font-family:Montserrat,'IBM Plex Sans Arabic',sans-serif;font-size:15px;font-weight:800;color:var(--ink);padding-bottom:6px;border-bottom:2px solid var(--line)}
 .pay-day{display:flex;flex-direction:column;gap:6px}
 .pay-day-h{font-size:13px;font-weight:800;color:var(--blue2);padding:4px 0}
+
+/* v9: primary tile for "new invoice / new return", and spacing between toolbar rows */
+.ix-tile.new{background:linear-gradient(135deg,#2563EB,#1D4ED8);border-color:transparent;color:#fff;box-shadow:0 12px 26px -12px rgba(37,99,235,.6)}
+.ix-tile.new b,.ix-tile.new small{color:#fff}
+.ix-tile.new small{opacity:.85}
+.ix-tile.new .ix-ico{background:rgba(255,255,255,.18);color:#fff;border:0}
+.row+.row{margin-top:14px}
