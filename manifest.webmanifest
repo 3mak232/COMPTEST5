@@ -5,8 +5,8 @@
   "dir": "rtl",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#F5F7FA",
-  "theme_color": "#0B1220",
+  "background_color": "#EEF1F6",
+  "theme_color": "#0B1020",
   "description": "FEDO ERP — حساباتك ومخزونك وشغلك في مكان واحد. by GHONIMX Technologies",
   "icons": [
     {
