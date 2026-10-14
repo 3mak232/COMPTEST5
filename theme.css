@@ -1,0 +1,121 @@
+/* FEDO theme v2: light + dark tokens, shell polish, and component overrides.
+   Loaded after style.css. Dark follows the OS unless the user picks one (stored per browser). */
+
+/* ---------- LIGHT (default) ---------- */
+:root{
+  --bg:#F5F7FA; --card:#FFFFFF; --surface-2:#F1F5F9; --line:#E5E7EB;
+  --ink:#0B1220; --ink-2:#3A4657; --muted:#5B6878; --fg:#0B1220;
+  --blue:#2563EB; --blue2:#1D4ED8; --teal:#3B82F6; --tint:#EAF1FE;
+  --green:#16834b; --red:#B93A2F; --orange:#B8650F; --purple:#0E6E8C;
+  --danger-bg:#FDF1EF; --side:#FFFFFF; --side-on:#EAF1FE;
+  --shadow:0 1px 2px rgba(11,18,32,.04),0 8px 24px rgba(11,18,32,.06);
+  --radius:16px; color-scheme:light;
+}
+
+/* ---------- DARK ---------- */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A0F1A; --card:#111A2B; --surface-2:#16213A; --line:#24314A;
+    --ink:#E6EBF3; --ink-2:#C3CCDA; --muted:#94A0B4; --fg:#E6EBF3;
+    --blue:#3B82F6; --blue2:#60A5FA; --teal:#60A5FA; --tint:rgba(59,130,246,.16);
+    --green:#34D399; --red:#F87171; --orange:#FBBF24; --purple:#67C5E0;
+    --danger-bg:rgba(248,113,113,.12); --side:#0E1626; --side-on:rgba(59,130,246,.18);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A0F1A; --card:#111A2B; --surface-2:#16213A; --line:#24314A;
+  --ink:#E6EBF3; --ink-2:#C3CCDA; --muted:#94A0B4; --fg:#E6EBF3;
+  --blue:#3B82F6; --blue2:#60A5FA; --teal:#60A5FA; --tint:rgba(59,130,246,.16);
+  --green:#34D399; --red:#F87171; --orange:#FBBF24; --purple:#67C5E0;
+  --danger-bg:rgba(248,113,113,.12); --side:#0E1626; --side-on:rgba(59,130,246,.18);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); color-scheme:dark;
+}
+
+/* ---------- shell ---------- */
+html,body{background:var(--bg);color:var(--ink)}
+.sidebar{background:var(--side);border-left:1px solid var(--line);box-shadow:none}
+.brandbox{border-bottom:1px solid var(--line);padding:6px 8px 16px;gap:12px}
+.brandmark{width:44px;height:44px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:5px;flex:0 0 auto;display:grid;place-items:center}
+.brandmark img{width:100%;height:100%;object-fit:contain}
+.brandbox b{font-family:Montserrat,Cairo,sans-serif;font-size:16px;font-weight:800;letter-spacing:.01em;color:var(--ink)}
+.brandbox small{color:var(--muted);font-size:11px;letter-spacing:.02em}
+nav a{color:var(--ink-2);border-radius:12px;padding:10px 12px;font-weight:700;position:relative}
+nav a:hover{background:var(--surface-2);color:var(--ink)}
+nav a.on{background:var(--side-on);color:var(--blue2)}
+nav a.on::before{content:"";position:absolute;inset-inline-end:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--blue)}
+.sidebtn,.danger-link{color:var(--ink-2)}
+.userbox{border-bottom:1px solid var(--line);margin-bottom:6px}
+.avatar{background:var(--tint);color:var(--blue2)}
+.topbar{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);height:64px}
+.top-search,.iconbtn,.role-pill{background:var(--card);border-color:var(--line);color:var(--ink-2)}
+.top-search input{color:var(--ink)}
+.theme-btn{display:inline-grid;place-items:center;width:40px;height:40px;padding:0;cursor:pointer}
+.theme-btn svg{width:19px;height:19px}
+.page{padding:28px 30px 48px}
+.hero{background:linear-gradient(135deg,#0B1220 0%,#1E3A8A 100%);box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.06)}
+.hero h2,.hero p{color:#fff}
+.section-head h2{font-family:Montserrat,Cairo,sans-serif;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.section-head p{color:var(--muted)}
+.card,.kpi,.filterbar{background:var(--card);border-color:var(--line);box-shadow:var(--shadow)}
+.kpi{position:relative;overflow:hidden;border-radius:var(--radius)}
+.kpi::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:var(--blue)}
+.kpi.green::before{background:var(--green)}.kpi.red::before{background:var(--red)}.kpi.orange::before{background:var(--orange)}.kpi.purple::before{background:var(--purple)}
+.kpi strong{font-family:Montserrat,Cairo,sans-serif;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+.kpi.blue strong{color:var(--blue)}.kpi.green strong{color:var(--green)}.kpi.red strong{color:var(--red)}.kpi.orange strong{color:var(--orange)}
+.card-title b,.card-title strong{font-family:Montserrat,Cairo,sans-serif;color:var(--ink)}
+.btn{background:linear-gradient(180deg,var(--blue),var(--blue2));color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.25);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{background:linear-gradient(180deg,var(--blue2),var(--blue2));transform:translateY(-1px);box-shadow:0 10px 22px rgba(37,99,235,.3)}
+.btn.soft{background:var(--tint);color:var(--blue2);box-shadow:none}
+.btn.danger{background:var(--danger-bg);color:var(--red);box-shadow:none}
+.linkbtn{color:var(--blue2)}
+input,select,textarea{background:var(--card);color:var(--ink);border-color:var(--line)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 3px var(--tint)}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+.form-card input,.form-card select,.form-card textarea,.filterbar input,.filterbar select{background:var(--card);border-color:var(--line);color:var(--ink)}
+.tw{background:var(--card);border-color:var(--line)}
+table{background:var(--card);color:var(--ink)}
+th{background:var(--surface-2);color:var(--muted);text-transform:none;font-weight:800;letter-spacing:.01em;border-bottom-color:var(--line)}
+td{border-bottom-color:var(--line)}
+tbody tr:hover td{background:color-mix(in srgb,var(--tint) 55%,transparent)}
+.chip{background:var(--tint);color:var(--blue2)}
+.chip.success{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green)}
+.chip.danger{background:var(--danger-bg);color:var(--red)}
+.chip.warning{background:color-mix(in srgb,var(--orange) 16%,transparent);color:var(--orange)}
+.health-grid>div{background:var(--surface-2)}
+.error-card{background:var(--danger-bg);border-color:var(--red)}
+.empty{color:var(--muted)}
+.muted{color:var(--muted)}
+.alert-row{border-bottom-color:var(--line)}
+
+/* ---------- login ---------- */
+.lg-brand{background:linear-gradient(160deg,#0B1220 0%,#14307A 60%,#1E40AF 100%);color:#fff}
+.lg-bg{opacity:.7}
+.lg-plate{display:inline-flex;background:#fff;border-radius:20px;padding:16px 22px;box-shadow:0 14px 40px rgba(0,0,0,.28);margin-bottom:8px;align-self:flex-start}
+.lg-logo{width:min(300px,72vw);height:auto;display:block}
+.lg-brand h1{font-family:Montserrat,Cairo,sans-serif;font-weight:800;letter-spacing:-.01em}
+.lg-brand-foot{opacity:.7}
+.lg-card{background:var(--card);color:var(--ink);position:relative}
+.lg-theme{position:absolute;top:18px;inset-inline-end:18px}
+.lg-card h2,.lg-card label,.lg-card b{color:var(--ink)}
+.lg-in,.lg-card input{background:var(--card);color:var(--ink);border-color:var(--line)}
+.lg-note,.lg-card .muted{color:var(--muted)}
+.lg-submit{background:linear-gradient(180deg,var(--blue),var(--blue2))}
+
+/* ---------- mobile ---------- */
+@media (max-width:760px){
+  .page{padding:18px 16px 40px}
+  .topbar{height:60px;padding:0 14px}
+  .hero{border-radius:16px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+.lg-theme{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink-2);cursor:pointer;padding:0}
+.lg-theme svg{width:19px;height:19px}
+
+/* sidebar + tables: override legacy dark-sidebar and white-table rules from style.css */
+.sidebar{background:var(--side);color:var(--ink-2)}
+.sidebar .brandbox b,.sidebar .userbox b{color:var(--ink)}
+.sidebar .brandbox small,.sidebar .userbox small{color:var(--muted)}
+.sidebar .avatar{background:var(--tint);color:var(--blue2)}
+.tw{background:var(--card);border-color:var(--line)}
+.tw table{background:var(--card)}
