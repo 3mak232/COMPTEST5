@@ -860,7 +860,7 @@ async function paintView(q){
 }
 const QA_ALL=[['sales','فاتورة بيع'],['purch','فاتورة شراء'],['cash','الخزينة والتحويلات'],['cust','عميل جديد'],['prod','منتج جديد'],['stk','الجرد'],['hr','الحضور والإجازات'],['rep','التقارير']];
 const QA_DEFAULT=['sales','purch','cash','cust','rep'];
-const APP_VERSION='FEDO-CORE-4';
+const APP_VERSION='FEDO-FLOAT-5';
 async function loadQuick(){try{const{data}=await sb.from('user_quick_actions').select('actions').eq('user_id',me.id).maybeSingle();window._qa=(data&&Array.isArray(data.actions)&&data.actions.length)?data.actions:QA_DEFAULT}catch(_){window._qa=QA_DEFAULT}}
 function quickBar(){
   const cur=window._qa||QA_DEFAULT;
@@ -1469,7 +1469,7 @@ async function printInvoice(id,s){
       th{background:var(--tint);color:${pc.accent};padding:9px;text-align:right;font-size:12px}
       td{padding:9px;border-bottom:1px solid var(--line)}
       .totals{margin-top:14px;margin-right:auto;width:280px}
-      .totals div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #D6D2C4}
+      .totals div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #C9D3E2}
       .totals .grand{font-size:16px;font-weight:800;border-bottom:2px solid ${pc.accent};color:${pc.accent}}
       .notes{margin-top:18px;color:var(--ink-2);white-space:pre-line}
       .sign{display:flex;justify-content:space-between;margin-top:46px;color:var(--muted)}
