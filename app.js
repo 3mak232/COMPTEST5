@@ -854,13 +854,13 @@ async function paintView(q){
   const shellKey=me.id+'|'+me.role+'|'+(me.isDev?'d':'');
   const viewChanged=window._animView!==view;window._animView=view;
   if(window._shellKey===shellKey&&$('.sidebar')&&$('.page')&&$('.mobile-bottom')){const pg=$('.page');if(window._lastLinks!==links){$('nav').innerHTML=links;window._lastLinks=links}pg.innerHTML=h;if(viewChanged){pg.classList.remove('pg-in');void pg.offsetWidth;pg.classList.add('pg-in')}$('.mobile-bottom').innerHTML=bottomNav()}
-  else{window._shellKey=shellKey;$('#app').innerHTML=`<div class="mobile-overlay" onclick="closeMobileNav()"></div><aside class="sidebar"><div class="brandbox"><div class="brandmark"><img src="./brand/fedo-wing.png" alt=""></div><div><b>FEDO ERP</b><small>Finance · Inventory · Operations</small></div></div><div class="userbox"><div class="avatar">${e((me.name||'U').slice(0,1))}</div><div><b>${e(me.name)}</b><small>${e(me.isDev?'مطور':me.role)}</small></div></div><nav>${links}</nav><div class="side-bottom"><button class="sidebtn danger-link" onclick="closeMobileNav();logout()">تسجيل الخروج</button></div></aside><main class="shell"><header class="topbar"><button class="mobile-menu-btn" onclick="openMobileNav()" aria-label="فتح القائمة">${ico('menu')}</button><div class="top-search" style="position:relative"><span class="ico-s">${ico('search')}</span><input id="gs" autocomplete="off" placeholder="بحث سريع في النظام" oninput="gsSearch(this.value)" onkeydown="gsKey(event)"/><div id="gsRes" hidden style="position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card,var(--card));color:var(--fg,var(--ink));border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(11,18,32,.18);z-index:999;max-height:60vh;overflow:auto;padding:6px;text-align:start"></div></div><div class="top-actions"><div id="netStatus"></div><label class="iconbtn" title="اللغة وأسلوب الكلام" style="display:inline-flex;align-items:center;gap:4px;padding:0 6px">${ico('globe')}<select onchange="setDialect(this.value)" style="border:0;background:transparent;color:inherit;font:inherit;font-size:12px;font-weight:700;cursor:pointer"><option value="eg" ${dialectMode()==='eg'?'selected':''}>AR · عامية</option><option value="msa" ${dialectMode()==='msa'?'selected':''}>AR · فصحى</option><option value="en" ${dialectMode()==='en'?'selected':''}>EN · English</option></select></label>${fedoThemeBtn("iconbtn theme-btn")}<span class="ver-pill" title="رقم الإصدار">${APP_VERSION}</span>${me.isDev?'<button class="iconbtn" title="فحص الجاهزية" onclick="go(\'health\')">'+ico('check')+'</button>':''}<button class="role-pill">${e(me.role)}</button></div></header><div class="page${viewChanged?' pg-in':''}">${h}</div><div class="mobile-bottom">${bottomNav()}</div></main>`;}
+  else{window._shellKey=shellKey;$('#app').innerHTML=`<div class="mobile-overlay" onclick="closeMobileNav()"></div><aside class="sidebar"><div class="brandbox"><div class="brandmark"><img src="./brand/fedo-wing.png" alt=""></div><div><b>FEDO ERP</b><small>Finance · Inventory · Operations</small></div></div><div class="userbox"><div class="avatar">${e((me.name||'U').slice(0,1))}</div><div><b>${e(me.name)}</b><small>${e(me.isDev?'مطور':me.role)}</small></div></div><nav>${links}</nav><div class="side-bottom"><button class="sidebtn danger-link" onclick="closeMobileNav();logout()">تسجيل الخروج</button></div></aside><main class="shell"><header class="topbar"><button class="mobile-menu-btn" onclick="openMobileNav()" aria-label="فتح القائمة">${ico('menu')}</button><div class="top-search" style="position:relative"><span class="ico-s">${ico('search')}</span><input id="gs" autocomplete="off" placeholder="بحث سريع في النظام" oninput="gsSearch(this.value)" onkeydown="gsKey(event)"/><div id="gsRes" hidden style="position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card,var(--card));color:var(--fg,var(--ink));border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(11,18,32,.18);z-index:999;max-height:60vh;overflow:auto;padding:6px;text-align:start"></div></div><div class="top-actions"><div id="netStatus"></div>${langSeg()}${fedoThemeBtn("iconbtn theme-btn")}<span class="ver-pill" title="رقم الإصدار">${APP_VERSION}</span>${me.isDev?'<button class="iconbtn" title="فحص الجاهزية" onclick="go(\'health\')">'+ico('check')+'</button>':''}<button class="role-pill">${e(me.role)}</button></div></header><div class="page${viewChanged?' pg-in':''}">${h}</div><div class="mobile-bottom">${bottomNav()}</div></main>`;}
   if(q){const i=$('#q');if(i){i.focus();i.setSelectionRange(99,99)}}
   updateOnlineStatus();
 }
 const QA_ALL=[['sales','فاتورة بيع'],['purch','فاتورة شراء'],['cash','الخزينة والتحويلات'],['cust','عميل جديد'],['prod','منتج جديد'],['stk','الجرد'],['hr','الحضور والإجازات'],['rep','التقارير']];
 const QA_DEFAULT=['sales','purch','cash','cust','rep'];
-const APP_VERSION='FEDO-FLOAT-8';
+const APP_VERSION='FEDO-FLOAT-9';
 async function loadQuick(){try{const{data}=await sb.from('user_quick_actions').select('actions').eq('user_id',me.id).maybeSingle();window._qa=(data&&Array.isArray(data.actions)&&data.actions.length)?data.actions:QA_DEFAULT}catch(_){window._qa=QA_DEFAULT}}
 function quickBar(){
   const cur=window._qa||QA_DEFAULT;
@@ -1547,7 +1547,7 @@ function printHtml(title,body){
   const w=window.open('','_blank');
   if(!w){toast('اسمح بالنوافذ المنبثقة عشان تطبع');return null}
   w.document.open();
-  w.document.write(`<!doctype html><html dir="rtl" lang="ar"><head><meta charset="utf-8"><title>${e(title)}</title><style>:root{--ink:#0B1220;--ink-2:#2B3A55;--muted:#64748B;--blue:#2563EB;--blue2:#1D4ED8;--tint:#EAF1FE;--tint-2:#D5E3FD;--line:#E5E7EB;--line-2:#CBD3E1;--card:#FFFFFF;--surface-2:#F5F7FA;--red:#B91C1C;--red-bg:#FDECEC;--green:#15803D;--green-bg:#E7F6EC;--orange:#B45309;--orange-bg:#FEF3E2}@page{size:A4;margin:12mm}body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;color:var(--ink);margin:0;font-size:13px}h2{margin:0 0 8px;color:var(--blue2)}h3{margin:14px 0 6px}.muted{color:var(--muted)}table{width:100%;border-collapse:collapse;margin:8px 0}th{background:var(--tint);color:var(--blue2);padding:7px;text-align:right;font-size:12px}td{padding:7px;border-bottom:1px solid var(--line);text-align:right}.tot{font-weight:800;border-top:2px solid #1D4ED8;padding-top:6px}.bad{color:var(--red)}.good{color:var(--green)}.chip{display:inline-block;padding:2px 8px;border-radius:99px;border:1px solid #8C97A6}</style></head><body>${body}<script>window.onload=function(){setTimeout(function(){window.print()},200)}<\/script></body></html>`);
+  w.document.write(`<!doctype html><html dir="rtl" lang="ar"><head><meta charset="utf-8"><title>${e(title)}</title><style>:root{--ink:#0B1020;--ink-2:#2B3A55;--muted:#64748B;--blue:#2563EB;--blue2:#1D4ED8;--tint:#EAF1FE;--line:#E5E7EB;--card:#FFFFFF}@page{size:A4;margin:14mm 12mm}*{box-sizing:border-box}body{font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,Arial,sans-serif;color:var(--ink);margin:0;font-size:12.5px;line-height:1.6;background:#fff}h2{margin:0 0 10px;font-family:Montserrat,'IBM Plex Sans Arabic',sans-serif;font-size:20px;letter-spacing:-.01em;color:var(--ink);padding-bottom:10px;border-bottom:3px solid var(--ink);position:relative}h2::after{content:'';position:absolute;inset-inline-start:0;bottom:-3px;width:56px;height:3px;background:var(--blue)}h3{margin:16px 0 6px;font-size:13px;color:var(--blue2);font-weight:800}.muted{color:var(--muted)}table{width:100%;border-collapse:collapse;margin:8px 0;font-size:12px}th{background:var(--ink);color:#fff;padding:8px 10px;text-align:right;font-weight:700;font-size:11.5px}td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;vertical-align:middle}tbody tr:nth-child(even) td{background:#F7F9FC}.tot{font-weight:800;border-top:2px solid var(--ink);padding-top:6px;color:var(--ink)}.box{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#F7F9FC}@media print{th{-webkit-print-color-adjust:exact;print-color-adjust:exact}tbody tr:nth-child(even) td{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body>${body}<script>window.onload=function(){setTimeout(function(){window.print()},200)}<\/script></body></html>`);
   w.document.close();
   return w;
 }
@@ -1950,16 +1950,52 @@ async function payView(){
   const cu=window._yk!=='supp';const L=cu?C.customers:C.suppliers;const P_=cu?C.cb:C.sbal;
   const bar=secBar('pay',[['new','تسجيل دفعة'],['hist','سجل الدفعات'],['bal','الأرصدة']],'new');
   let body='';
-  if(sec==='new') body=`<div class="card np"><div class="row"><select id="yk" onchange="window._yk=v('yk')==='receipt'?'cust':'supp';R()"><option value="receipt" ${cu?'selected':''}>مقبوضات عميل</option><option value="payment" ${cu?'':'selected'}>مدفوعات مورد</option></select><select id="yp" onchange="loadPayInvoices()">${O(L)}</select><select id="yinv"><option value="">دفعة على الحساب (بدون تخصيص)</option></select><input id="ya" type="number" placeholder="المبلغ"><select id="yc">${O(C.accts)}</select><button onclick="savePayment()">تسجيل الدفعة</button></div><p class="muted">يمكن ترك الفاتورة فارغة ليصبح المبلغ رصيدًا غير مخصص، ثم تخصيصه لاحقًا.</p></div>`;
+  if(sec==='new') body=`<div class="card np pay-card"><div class="pay-form">`+
+    `<label class="pf-f"><span>نوع الحركة</span><select id="yk" onchange="window._yk=v('yk')==='receipt'?'cust':'supp';R()"><option value="receipt" ${cu?'selected':''}>مقبوضات</option><option value="payment" ${cu?'':'selected'}>مدفوعات</option></select></label>`+
+    `<div class="pf-f pf-wide"><span>الطرف</span><input id="ypQ" type="search" placeholder="ابحث بالاسم أو رقم الهاتف" oninput="ypSearch(this.value)" autocomplete="off"><input type="hidden" id="yp" value=""><div id="ypSel"></div><div id="ypRes" class="doc-res"></div></div>`+
+    `<label class="pf-f"><span>الفاتورة (اختياري)</span><select id="yinv"><option value="">دفعة على الحساب (بدون تخصيص)</option></select></label>`+
+    `<label class="pf-f"><span>المبلغ</span><input id="ya" type="number" placeholder="0.00"></label>`+
+    `<label class="pf-f"><span>الحساب</span><select id="yc">${O(C.accts)}</select></label>`+
+    `<div class="pf-f pf-act"><span>&nbsp;</span><button onclick="savePayment()">تسجيل الدفعة</button></div>`+
+    `</div><p class="muted pay-note">يمكن ترك الفاتورة فارغة ليصبح المبلغ رصيدًا غير مخصص، ثم تخصيصه لاحقًا.</p></div>`;
   else if(sec==='hist'){
     const P=await g('payments','date');
     const nm=p=>p.kind==='receipt'?(by(C.customers,p.customer_id).name||''):(by(C.suppliers,p.supplier_id).name||'');
-    const rows=P.slice().reverse().map(p=>[p.date,p.kind==='receipt'?'مقبوض':'مدفوع',e(nm(p)||'—'),fmt(p.amount),e((by(C.accts,p.account_id).name)||''),e(p.doc_ref||'')]);
-    const texts=P.slice().reverse().map(p=>[p.date,p.kind==='receipt'?'مقبوض':'مدفوع',nm(p),(by(C.accts,p.account_id).name)||'',p.doc_ref||''].join(' '));
-    body=`<div class="card">${lsCard('pay',['التاريخ','النوع','الطرف','المبلغ','الحساب','المستند'],rows,texts,'ابحث بالاسم أو النوع أو المستند...')}</div>`;
+    const loc=dialectMode()==='en'?'en-GB':'ar-EG';
+    const months={};
+    P.slice().sort((x,y)=>String(y.date).localeCompare(String(x.date))).forEach(p=>{const d=String(p.date||'').slice(0,10)||'—';const m=d.slice(0,7)||'—';(months[m]??={});(months[m][d]??=[]);months[m][d].push(p)});
+    const dayLabel=d=>{try{return new Date(d+'T12:00:00').toLocaleDateString(loc,{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'Africa/Cairo'})}catch{return d}};
+    const monLabel=m=>{try{return new Date(m+'-01T12:00:00').toLocaleDateString(loc,{month:'long',year:'numeric',timeZone:'Africa/Cairo'})}catch{return m}};
+    const sum=arr=>arr.reduce((t,p)=>t+Number(p.amount||0),0);
+    const blocks=Object.keys(months).sort().reverse().map(m=>{
+      const days=Object.keys(months[m]).sort().reverse();
+      const monthRows=days.map(d=>{const items=months[m][d];return `<div class="pay-day"><div class="pay-day-h"><b>${e(dayLabel(d))}</b><span>${items.length} حركة · ${fmt(sum(items))}</span></div>`+
+        T(['الطرف','النوع','المبلغ','الحساب','المستند'],items.map(p=>[e(nm(p)||'—'),p.kind==='receipt'?'مقبوض':'مدفوع',fmt(p.amount),e((by(C.accts,p.account_id).name)||''),e(p.doc_ref||'')]))+'</div>'}).join('');
+      return `<section class="pay-month"><header class="pay-month-h"><b>${e(monLabel(m))}</b><span>${fmt(sum([].concat(...days.map(d=>months[m][d]))))}</span></header>${monthRows}</section>`;
+    }).join('');
+    body=`<div class="card pay-hist">${blocks||'<div class="empty">لا توجد حركات بعد</div>'}</div>`;
   }
   else body=`<div class="card"><b>الأرصدة</b>${T(['الاسم','الرصيد'],L.map(x=>[e(x.name),fmt(by(P_,x.id).balance)]))}</div>`;
   return sectionHead('المدفوعات والتحصيل','تسجيل المقبوضات والمدفوعات وتخصيصها على الفواتير.')+bar+body;
+}
+function ypSearch(q){
+  const box=document.getElementById('ypRes');if(!box)return;
+  q=(q||'').trim().toLowerCase();if(!q){box.innerHTML='';return}
+  const L=v('yk')==='receipt'?C.customers:C.suppliers;
+  const list=L.filter(x=>[x.name,x.phone].join(' ').toLowerCase().includes(q)).slice(0,8);
+  box.innerHTML=list.length?list.map(x=>`<button type="button" class="doc-res-item" onclick="ypPick('${x.id}')"><b>${e(x.name)}</b><small>${e(x.phone||'بدون رقم هاتف')}</small></button>`).join(''):'<div class="doc-res-empty">لا يوجد طرف بهذا الاسم أو الرقم</div>';
+}
+function ypPick(id){
+  const L=v('yk')==='receipt'?C.customers:C.suppliers;const x=L.find(r=>r.id===id);if(!x)return;
+  document.getElementById('yp').value=id;
+  document.getElementById('ypQ').style.display='none';document.getElementById('ypQ').value='';
+  document.getElementById('ypRes').innerHTML='';
+  document.getElementById('ypSel').innerHTML=`<div class="yp-chosen"><b>${e(x.name)}</b><button type="button" class="linkbtn" onclick="ypClear()">تغيير</button></div>`;
+  loadPayInvoices();
+}
+function ypClear(){
+  document.getElementById('yp').value='';document.getElementById('ypSel').innerHTML='';
+  const q=document.getElementById('ypQ');q.style.display='';q.value='';q.focus();
 }
 
 // ---------- كشف الحساب: البحث عن الطرف (بدون تغيير سلوك) ----------
@@ -2292,8 +2328,8 @@ boot=async function(){await _boot0();refreshCo()};
 
 
 // ---------- v1.50: الأطراف الموحدة (عميل ومورد في سجل واحد) ----------
-const PT_TABS=[['all','الكل'],['owe','عليه فلوس لينا'],['owed','علينا فلوس ليه']];
-function ptNet(x){const n0=+x.net||0;if(Math.abs(n0)<0.005)return '<span class="muted">متصفّر</span>';return n0>0?`<span class="good">عليه فلوس لينا ${fmt(n0)}</span>`:`<span class="bad">علينا فلوس ليه ${fmt(-n0)}</span>`}
+const PT_TABS=[['all','الكل'],['owe','مستحق لنا'],['owed','مستحق علينا']];
+function ptNet(x){const n0=+x.net||0;if(Math.abs(n0)<0.005)return '<span class="muted">متصفّر</span>';return n0>0?`<span class="good">مستحق لنا ${fmt(n0)}</span>`:`<span class="bad">مستحق علينا ${fmt(-n0)}</span>`}
 // كل طرف عميل ومورد في نفس الوقت: مفيش اختيار دور، ورصيده واحد صافي
 async function partiesView(){
   const tab=secCur('pt','all');
@@ -2305,16 +2341,16 @@ async function partiesView(){
     const acts=[`<button class="s" onclick="partyEdit('${x.party_id}')">تعديل</button>`];
     if(x.customer_id)acts.push(`<button class="s" onclick="partyStmt('${x.party_id}')">كشف الحساب</button>`);
     acts.push(`<button class="s" onclick="act(()=>rpc('set_party_active',{p_party:'${x.party_id}',p_on:${x.active?'false':'true'}}))">${x.active?'تعطيل':'تفعيل'}</button>`);
-    return `<tr data-s="${e((x.name+' '+(x.phone||'')+' '+(x.email||'')).toLowerCase())}"><td><span class="tk-l">الطرف</span><span class="tk-v"><b>${e(x.name)}</b>${x.phone?`<br><small class="muted">${e(x.phone)}</small>`:''}</span></td><td><span class="tk-l">عليه فلوس لينا</span><span class="tk-v">${fmt(x.receivable)}</span></td><td><span class="tk-l">علينا فلوس ليه</span><span class="tk-v">${fmt(x.payable)}</span></td><td><span class="tk-l">الصافي</span><span class="tk-v">${ptNet(x)}</span></td><td><span class="tk-l">الحالة</span><span class="tk-v">${x.active?chip('مفعّل','success'):chip('موقوف','warning')}</span></td><td class="pt-acts"><div class="row-btns">${acts.join(' ')}</div></td></tr>`;
+    return `<tr data-s="${e((x.name+' '+(x.phone||'')+' '+(x.email||'')).toLowerCase())}"><td><span class="tk-l">الطرف</span><span class="tk-v"><b>${e(x.name)}</b>${x.phone?`<br><small class="muted">${e(x.phone)}</small>`:''}</span></td><td><span class="tk-l">مستحق لنا</span><span class="tk-v">${fmt(x.receivable)}</span></td><td><span class="tk-l">مستحق علينا</span><span class="tk-v">${fmt(x.payable)}</span></td><td><span class="tk-l">الصافي</span><span class="tk-v">${ptNet(x)}</span></td><td><span class="tk-l">الحالة</span><span class="tk-v">${x.active?chip('مفعّل','success'):chip('موقوف','warning')}</span></td><td class="pt-acts"><div class="row-btns">${acts.join(' ')}</div></td></tr>`;
   }).join('');
   const canNew=me&&['admin','accountant','sales','store'].includes(me.role);
   const form=canNew?`<div class="card form-card"><div class="card-title"><b>طرف جديد</b><span class="muted">الطرف بيتسجل عميل ومورد مع بعض، برصيد واحد صافي.</span></div>
     <div class="row"><input id="pn" placeholder="الاسم"><input id="pp" placeholder="الهاتف"><input id="pe" type="email" placeholder="البريد"><input id="pa" placeholder="العنوان"><input id="ptx" placeholder="الرقم الضريبي"></div>
-    <div class="row"><input id="pcl" type="number" placeholder="حد الائتمان"><input id="pct" type="number" placeholder="مدة السداد بالأيام"><input id="pco" type="number" placeholder="رصيد افتتاحي (+ عليه فلوس لينا / - علينا فلوس ليه)"><button onclick="partyNew()">إضافة الطرف</button></div></div>`:'';
+    <div class="row"><input id="pcl" type="number" placeholder="حد الائتمان"><input id="pct" type="number" placeholder="مدة السداد بالأيام"><input id="pco" type="number" placeholder="رصيد افتتاحي (+ مستحق لنا / - مستحق علينا)"><button onclick="partyNew()">إضافة الطرف</button></div></div>`:'';
   return sectionHead('الأطراف','كل طرف عميل ومورد في نفس الوقت، برصيد صافي واحد.')+form+
-    `<div class="party-stats"><div><small>إجمالي عليه فلوس لينا</small><b class="good">${fmt(sumR)}</b></div><div><small>إجمالي علينا فلوس ليه</small><b class="bad">${fmt(sumP)}</b></div><div><small>الصافي</small><b>${fmt(sumR-sumP)}</b></div></div>
+    `<div class="party-stats"><div><small>إجمالي مستحق لنا</small><b class="good">${fmt(sumR)}</b></div><div><small>إجمالي مستحق علينا</small><b class="bad">${fmt(sumP)}</b></div><div><small>الصافي</small><b>${fmt(sumR-sumP)}</b></div></div>
     <div class="card np">${bar}<input class="inv-search" type="search" placeholder="بحث بالاسم أو الهاتف أو البريد" oninput="invFilter(this.value)" style="margin-top:8px"></div>
-    <div class="card"><div class="table-wrap tw-stack"><table class="inv-table"><thead><tr><th>الطرف</th><th>عليه فلوس لينا</th><th>علينا فلوس ليه</th><th>الصافي</th><th>الحالة</th><th></th></tr></thead><tbody id="invBody">${rows||'<tr><td colspan="6" class="muted">لا توجد أطراف في هذا التبويب</td></tr>'}</tbody></table></div></div>`;
+    <div class="card"><div class="table-wrap tw-stack"><table class="inv-table"><thead><tr><th>الطرف</th><th>مستحق لنا</th><th>مستحق علينا</th><th>الصافي</th><th>الحالة</th><th></th></tr></thead><tbody id="invBody">${rows||'<tr><td colspan="6" class="muted">لا توجد أطراف في هذا التبويب</td></tr>'}</tbody></table></div></div>`;
 }
 async function partyNew(){
   if(!v('pn').trim())return alert('اكتب اسم الطرف');
@@ -2462,7 +2498,7 @@ async function showPartyStmt(){
     B.supplier_id?sb.from('suppliers').select('opening_balance').eq('id',B.supplier_id).single().then(r=>r.data||{}):{},
     B.customer_id?rpc('customer_statement',{p_party:B.customer_id,p_to:b}):[],
     B.supplier_id?rpc('supplier_statement',{p_party:B.supplier_id,p_to:b}):[]]);
-  // أثر كل حركة على الصافي: عميل (مدين = عليه فلوس لينا)، مورد (دائن = علينا فلوس ليه)
+  // أثر كل حركة على الصافي: عميل (مدين = مستحق لنا)، مورد (دائن = مستحق علينا)
   const rowsAll=[
     ...cr.map(r=>({d:r.d,doc:r.doc,descr:r.descr,kind:'عميل',eff:(+r.debit||0)-(+r.credit||0)})),
     ...sr.map(r=>({d:r.d,doc:r.doc,descr:r.descr,kind:'مورد',eff:(+r.debit||0)-(+r.credit||0)}))
@@ -2471,7 +2507,7 @@ async function showPartyStmt(){
   const before=rowsAll.filter(r=>r.d<a).reduce((t,r)=>t+r.eff,0);
   let bal=open+before;
   const startBal=bal;
-  const balTxt=x=>Math.abs(x)<0.005?'<span class="muted">متصفّر</span>':x>0?`<span class="good">عليه فلوس لينا ${fmt(x)}</span>`:`<span class="bad">علينا فلوس ليه ${fmt(-x)}</span>`;
+  const balTxt=x=>Math.abs(x)<0.005?'<span class="muted">متصفّر</span>':x>0?`<span class="good">مستحق لنا ${fmt(x)}</span>`:`<span class="bad">مستحق علينا ${fmt(-x)}</span>`;
   const body=rowsAll.filter(r=>r.d>=a).map(r=>{
     bal+=r.eff;
     const owe=r.eff>0?fmt(r.eff):'', owed=r.eff<0?fmt(-r.eff):'';
@@ -2479,7 +2515,7 @@ async function showPartyStmt(){
   });
   st=`<div class="stmt-head"><div><h3>${e(B.name||'')}</h3>${B.phone?`<small class="muted">${e(B.phone)}</small>`:''}</div>
       <div class="stmt-open">رصيد أول المدة: ${balTxt(startBal)}</div></div>`
-    +T(['التاريخ','المستند','البيان','النوع','عليه فلوس لينا','علينا فلوس ليه','الرصيد'],body)
+    +T(['التاريخ','المستند','البيان','النوع','مستحق لنا','مستحق علينا','الرصيد'],body)
     +`<p class="stmt-close">الرصيد الختامي: ${balTxt(bal)}</p>`;
   R();
 }
@@ -2490,7 +2526,7 @@ function partyStmt(id){window._stp=id;st='';go('stmt')}
 const DX_PAIRS=[
   ['اختار ','اختر '],['اختار','اختر'],['النهارده','اليوم'],['مفيش نتيجة','لا توجد نتائج'],['مفيش ','لا يوجد '],['مفيش','لا يوجد'],
   ['اتعمل','أُنشئ'],['اتحدّث','حُدّث'],['اتحدث','حُدّث'],['اتشال','أُزيل'],['اتصلح','أُصلح'],['اتفعل','فُعّل'],['اتضاف','أُضيف'],
-  ['متصفّر','متوازن'],['عليه فلوس لينا','مدين لنا'],['علينا فلوس ليه','دائن لنا'],
+  ['متصفّر','متوازن'],['مستحق لنا','مدين لنا'],['مستحق علينا','دائن لنا'],
   ['الحساب لسه متفعلش','الحساب لم يُفعّل بعد'],['كلم الأدمن','تواصل مع المسؤول'],
   ['عايز ','أريد '],['عايزين ','نريد '],['عايزه','أريده'],['عايز','أريد'],['عشان ','لكي '],['علشان ','لكي '],
   ['كده','هكذا'],['دلوقتي','الآن'],['بعدين','لاحقاً'],['طب ','حسناً، '],['ازاي','كيف'],['إزاي','كيف'],['فين','أين'],
@@ -2503,7 +2539,7 @@ const DX_PAIRS=[
 ];
 DX_PAIRS.sort((a,b)=>b[0].length-a[0].length);
 // ----- ترجمة الإنجليزي (المرحلة الأولى: القوايم والأزرار والعناوين) -----
-const EN_PAIRS=[
+let EN_PAIRS=[
 ['الرئيسية','Home'],['المنتجات','Products'],['الأطراف','Parties'],['الموردون','Suppliers'],['المبيعات','Sales'],['أذونات التسليم','Delivery Notes'],['المشتريات','Purchases'],['أوامر الشراء','Purchase Orders'],['استلامات المشتريات','Goods Receipts'],['المرتجعات','Returns'],['عروض الأسعار','Quotations'],['أوامر البيع','Sales Orders'],['كشف الحساب','Statement'],['المدفوعات','Payments'],['المصروفات','Expenses'],['الخزينة','Cash'],['البنوك والتسويات','Banks & Reconciliation'],['المخازن','Warehouses'],['تحويل مخزني','Stock Transfer'],['الجرد','Stocktake'],['قوائم الأسعار','Price Lists'],['العمولات','Commissions'],['الأصول الثابتة','Fixed Assets'],['الموظفون','Employees'],['الحضور والإجازات','Attendance & Leave'],['المرتبات','Payroll'],['التصنيع','Manufacturing'],['نقطة البيع','Point of Sale'],['المشروعات والخدمات','Projects & Services'],['الفروع ومراكز التكلفة','Branches & Cost Centers'],['الفترات المالية','Fiscal Periods'],['الاعتمادات','Approvals'],['الشيكات','Cheques'],['المستندات الضريبية','Tax Documents'],['التكاملات','Integrations'],['التقارير','Reports'],['الحسابات','Accounts'],['فحص الجاهزية','Health Check'],['المستخدمون','Users'],['سجل العمليات','Audit Log'],['الإعدادات','Settings'],['إعدادات المطور','Developer Settings'],['بحث سريع في النظام','Quick search'],
 ['تسجيل الدخول','Sign in'],['تسجيل خروج','Sign out'],['إضافة','Add'],['تعديل','Edit'],['حذف','Delete'],['حفظ','Save'],['إلغاء','Cancel'],['طباعة','Print'],['تحديث','Update'],['تأكيد','Confirm'],['بحث','Search'],['فتح','Open'],['إغلاق','Close'],['تطبيق','Apply'],['رجوع','Back'],['تصدير','Export'],['استيراد','Import'],['نسخة احتياطية','Backup'],
 ['فاتورة بيع','Sales invoice'],['فاتورة شراء','Purchase invoice'],['مرتجع بيع','Sales return'],['مرتجع شراء','Purchase return'],
@@ -3233,8 +3269,8 @@ const EN_PAIRS=[
 ["منظومة إدارة الأعمال","Business management system"],
 ["اختار الفاتورة واضغط","Select the invoice and press"],
 ["التحقق الثنائي للأدمن","Admin two-factor verification"],
-["إجمالي علينا فلوس ليه","Total we owe them"],
-["إجمالي عليه فلوس لينا","Total they owe us"],
+["إجمالي مستحق علينا","Total we owe them"],
+["إجمالي مستحق لنا","Total they owe us"],
 ["جاري اختبار النظام...","Testing the system..."],
 ["تشغيل الاختبار الكامل","Run full test"],
 ["المستخدمون والصلاحيات","Users & permissions"],
@@ -3531,8 +3567,10 @@ const EN_PAIRS=[
 ["اضغط عشان تبدّل بين العامية المصرية والفصحى والإنجليزي (على الجهاز ده).","Tap to switch between Egyptian colloquial, formal Arabic and English (on this device)."],
 ["نسخة كاملة تتنزل على جهازك (كل البيانات والمستخدمين والملفات)، واستعادتها.","Full backup downloaded to your device (all data, users and files), and restore."],
 ["كل أدوات الإدارة في مكان واحد.","All admin tools in one place."]];
+EN_PAIRS=EN_PAIRS.filter(p=>Array.isArray(p)&&typeof p[0]==="string"&&typeof p[1]==="string"&&p[0]);
 EN_PAIRS.sort((a,b)=>b[0].length-a[0].length);
 
+function langSeg(){const m=dialectMode();const b=(k,l,t)=>`<button type="button" class="${m===k?'on':''}" title="${t}" aria-pressed="${m===k}" onclick="setDialect('${k}')">${l}</button>`;return `<div class="lang-seg" role="group" aria-label="اللغة">${b('eg','عامية','لغة عامية')}${b('msa','فصحى','العربية الفصحى')}${b('en','EN','English')}</div>`}
 function dialectMode(){try{return localStorage.getItem('erp_dialect')||'eg'}catch{return 'eg'}}
 // ترجمة نص واحد حسب الأسلوب المختار
 function dx(s){

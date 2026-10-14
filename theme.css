@@ -353,3 +353,43 @@ h1,h2,h3,h4,b,strong{color:inherit}
 :root{--btn:#2563EB}
 :root:not([data-theme="light"]){--btn:#2563EB}
 :root[data-theme="dark"]{--btn:#2563EB}
+
+/* language switch: a clear three-way segmented control */
+.lang-seg{display:inline-flex;align-items:center;gap:2px;padding:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;height:40px}
+.lang-seg button{border:0;background:transparent;color:var(--muted);border-radius:999px;padding:0 12px;height:32px;min-height:0;font-size:12px;font-weight:800;box-shadow:none}
+.lang-seg button:hover{color:var(--ink);background:var(--card)}
+.lang-seg button.on{background:var(--on);color:#fff}
+
+/* v8: select arrows never sit on the text; spacing for forms, filters and toolbars */
+select{appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2364748B' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:left 14px center!important;background-size:12px 8px!important;padding-inline:14px 36px!important;min-width:150px;max-width:100%;text-overflow:ellipsis;white-space:nowrap}
+select option{color:var(--ink);background:var(--card)}
+.filterbar{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center}
+.filterbar>*{min-width:0}
+.filterbar input[type=search],.filterbar .search,.tw-search,.search-row{flex:1 1 260px}
+.fm-grid,.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px 18px}
+.fm-f,.fm-grid>label,.form-grid>label{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fm-f>span,.fm-grid>label>span{font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.fm-f input,.fm-f select,.fm-f textarea{width:100%}
+.btn.s{background:var(--card);color:var(--ink-2);border:1px solid var(--line);box-shadow:none}
+.btn.s:hover{background:var(--surface-2);color:var(--ink)}
+.toolbar,.sec-tools,.page-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.sec-bar+*,.secbar+*{margin-top:4px}
+
+/* payments screen */
+.pay-card{padding:20px}
+.pay-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px 18px;align-items:start}
+.pf-f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.pf-f>span{font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.pf-f input,.pf-f select{width:100%}
+.pf-wide{grid-column:1/-1}
+.pay-note{color:var(--muted);font-size:12.5px;margin:0 0 12px}
+.yp-chosen{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border:1px solid var(--tint-2);background:var(--tint);border-radius:12px;color:var(--ink);font-weight:700}
+.doc-res{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.doc-res:empty{display:none}
+.doc-res-item{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:start;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600}
+.doc-res-item:hover{background:var(--surface-2)}
+.pay-hist{display:flex;flex-direction:column;gap:18px}
+.pay-month{display:flex;flex-direction:column;gap:10px}
+.pay-month-h{font-family:Montserrat,'IBM Plex Sans Arabic',sans-serif;font-size:15px;font-weight:800;color:var(--ink);padding-bottom:6px;border-bottom:2px solid var(--line)}
+.pay-day{display:flex;flex-direction:column;gap:6px}
+.pay-day-h{font-size:13px;font-weight:800;color:var(--blue2);padding:4px 0}
