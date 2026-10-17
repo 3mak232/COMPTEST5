@@ -1,0 +1,45 @@
+/* =========================================================
+   FEDO ERP — Brand palette (Navy · Emerald · Ivory · Amber)
+   Loaded after theme.css. Light-only: dark blocks redefine the same tokens
+   so the palette stays fixed whatever the system theme is.
+   Sources: FEDO_Full_Brand_System tokens + Brand-Guidelines.md
+   Buttons use #0B7A5E (not #18B58B) so white text stays readable (AA).
+   ========================================================= */
+:root,
+:root:not([data-theme="light"]),
+:root[data-theme="dark"]{
+  --navy:#101C2C; --navy-2:#17263A; --navy-3:#1F3148; --on:#101C2C;
+  --bg:#F5F3EC; --card:#FFFFFF; --surface-2:#EFECE2; --line:#E3E7EB; --line-2:#D3D8DE;
+  --ink:#172333; --ink-2:#2E3D52; --muted:#647184; --fg:#172333;
+  --blue:#0B7A5E; --blue2:#095F4A; --teal:#18B58B; --tint:#E6F5F0; --tint-2:#CDEBDD;
+  --green:#16834B; --green-bg:#E7F6EC; --red:#B93A2F; --red-bg:#FBE4E0;
+  --orange:#B8650F; --orange-bg:#FDF6E9; --purple:#0E6E8C; --danger-bg:#FBE4E0;
+  --side-ink:#E8EEF5; --side-muted:#8C9AAE; --side-line:rgba(255,255,255,.08);
+  --shadow-1:0 1px 2px rgba(16,28,44,.05);
+  --shadow-2:0 1px 2px rgba(16,28,44,.04),0 12px 28px -16px rgba(16,28,44,.18);
+  --ring:0 0 0 4px rgba(11,122,94,.16);
+  --btn:#0B7A5E;
+  color-scheme:light;
+}
+:root{--btn:#0B7A5E}
+.btn{background:var(--btn)}
+.btn:hover{background:var(--blue2)}
+.btn.soft{background:var(--tint);color:var(--blue2)}
+.linkbtn,a{color:var(--blue2)}
+.chip{background:var(--tint);color:var(--blue2)}
+.sidebar .brandmark{background:linear-gradient(135deg,#101C2C,#17263A)}
+.sidebar .brandmark img{width:100%;height:100%;object-fit:contain}
+
+/* sidebar active item uses the brand emerald instead of the old blue tint */
+.sidebar .nav-single.on,.sidebar .nav-single.on:hover{background:rgba(24,181,139,.2)!important;color:#fff!important}
+.sidebar .nav-single.on::before,.sidebar .nav-single.on::after{background:#18B58B}
+.sidebar .nav-single.on span{color:#fff!important}
+
+/* hard-coded blue accents in theme.css -> brand emerald / navy */
+nav a.on{background:linear-gradient(90deg,rgba(24,181,139,.28),rgba(24,181,139,.08))}
+nav a.on::before{background:#18B58B;box-shadow:0 0 12px rgba(24,181,139,.7)}
+.avatar{background:linear-gradient(135deg,#0B7A5E,#18B58B)}
+.hero::before{background:linear-gradient(115deg,rgba(24,181,139,.30) 0%,rgba(24,181,139,0) 42%),radial-gradient(circle at 100% 0%,rgba(24,181,139,.22),transparent 60%)}
+.lg-brand{background:radial-gradient(900px 500px at 15% 0%,rgba(24,181,139,.28),transparent 60%),linear-gradient(170deg,#101C2C,#0B1A2A)}
+.lg-submit{background:var(--btn);box-shadow:0 10px 22px -12px rgba(11,122,94,.9)}
+.hm-btn-main{background:var(--btn);box-shadow:0 8px 18px -10px rgba(11,122,94,.8)}
